@@ -36,3 +36,4 @@ out/
 #Misc
 *.log
 hs_err_pid*
+config.json
