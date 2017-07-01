@@ -1,56 +1,15 @@
 package net.darkhax.xchange.util;
 
-import java.io.*;
-import java.net.*;
-import java.text.*;
-import java.time.*;
-import java.time.format.*;
 import java.util.*;
-import java.util.Map.*;
-
-import org.apache.commons.io.*;
 
 import net.darkhax.xchange.*;
 import sx.blah.discord.api.internal.json.objects.*;
 import sx.blah.discord.handle.obj.*;
 import sx.blah.discord.util.*;
 
-public class Utilities {
+public class MessageUtils {
 
-    /**
-     * Static reference to the line seperator on the current operating system.
-     */
-    public static final String SEPERATOR = System.lineSeparator();
-
-    public static final DateTimeFormatter FORMAT_TIME_STANDARD = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm");
-
-    /**
-     * A wrapper for {@link FileUtils#copyURLToFile(URL, File)}. Allows for quick download of
-     * files based on input from users.
-     *
-     * @param site The site/url to download the file from.
-     * @param fileName The location to save the file to.
-     *
-     * @return The file that was downloaded.
-     */
-    public static File downloadFile (String site, String fileName) {
-
-        final File file = new File(fileName);
-
-        try {
-
-            FileUtils.copyURLToFile(new URL(site), file);
-        }
-
-        catch (final IOException e) {
-
-            e.printStackTrace();
-        }
-
-        return file;
-    }
-
-    /**
+	/**
      * Creates a ping message for a user based upon their user ID.
      *
      * @param userID The user ID of the user to generate a ping message for.
@@ -135,7 +94,7 @@ public class Utilities {
         String text = "";
 
         for (final String line : lines)
-            text += line + SEPERATOR;
+            text += line + Main.SEPERATOR;
 
         return text;
     }
@@ -206,7 +165,7 @@ public class Utilities {
 
         if (message.contains("@") || object.description.contains("@")) {
 
-            Utilities.sendMessage(channel, "I tried to send a message, but it contained an @. I can not ping people!");
+            sendMessage(channel, "I tried to send a message, but it contained an @. I can not ping people!");
             System.out.println(message);
             System.out.println(object.description);
             return;
@@ -214,7 +173,7 @@ public class Utilities {
 
         if (message.length() > 2000 || object.description.length() > 2000) {
 
-            Utilities.sendMessage(channel, "I tried to send a message, but it was too long. " + message.length() + "/2000 chars! Embedded: " + object.description.length() + "/2000!");
+            sendMessage(channel, "I tried to send a message, but it was too long. " + message.length() + "/2000 chars! Embedded: " + object.description.length() + "/2000!");
             System.out.println(message);
             System.out.println(object.description);
             return;
@@ -247,14 +206,14 @@ public class Utilities {
 
         if (message.contains("@") && !message.startsWith("I tried to send a message,")) {
 
-            Utilities.sendMessage(channel, "I tried to send a message, but it contained an @. I can not ping people!");
+            sendMessage(channel, "I tried to send a message, but it contained an @. I can not ping people!");
             System.out.println(message);
             return null;
         }
 
         if (message.length() > 2000) {
 
-            Utilities.sendMessage(channel, "I tried to send a message, but it was too long. " + message.length() + "/2000 chars!");
+            sendMessage(channel, "I tried to send a message, but it was too long. " + message.length() + "/2000 chars!");
             System.out.println(message);
             return null;
         }
@@ -274,74 +233,10 @@ public class Utilities {
 
         return null;
     }
-
-    public static String formatMessage (IMessage message) {
-
-        String ret = "";
-        if (message.getAttachments() == null || message.getAttachments().isEmpty())
-            ret = String.format("[%s|%s] %s: %s", message.getTimestamp().toLocalDate(), message.getTimestamp().toLocalTime(), message.getAuthor().getName(), message.getFormattedContent());
-        else
-            ret = String.format("[%s|%s] %s: %s [%s]", message.getTimestamp().toLocalDate(), message.getTimestamp().toLocalTime(), message.getAuthor().getName(), message.getFormattedContent(), formatAttachments(message.getAttachments()));
-        final List<IEmbed> embeds = message.getEmbedded();
-        if (embeds != null && !embeds.isEmpty()) {
-            ret += " {";
-            for (final IEmbed embed : embeds) {
-                String emb = "[" + embed.getDescription();
-                final List<IEmbed.IEmbedField> embedFields = embed.getEmbedFields();
-                if (embedFields != null && !embedFields.isEmpty())
-                    for (final IEmbed.IEmbedField field : embedFields)
-                        emb += "|" + field.getValue();
-                emb += "]";
-                ret += emb;
-            }
-            ret += "}";
-        }
-        return ret;
-    }
-
-    public static String formatAttachments (List<IMessage.Attachment> attachments) {
-
-        String s = "";
-        for (int i = 0, attachmentsSize = attachments.size(); i < attachmentsSize; i++) {
-            final IMessage.Attachment attachment = attachments.get(i);
-            s += attachment.getFilename();
-            s += "|" + humanReadableByteCount(attachment.getFilesize(), true);
-            s += "(" + attachment.getUrl() + ")";
-            if (i != attachmentsSize - 1)
-                s += ", ";
-        }
-        return s;
-
-    }
-
-    public static String humanReadableByteCount (long bytes, boolean si) {
-
-        final int unit = si ? 1000 : 1024;
-        if (bytes < unit)
-            return bytes + " B";
-        final int exp = (int) (Math.log(bytes) / Math.log(unit));
-        final String pre = (si ? "kMGTPE" : "KMGTPE").charAt(exp - 1) + (si ? "" : "i");
-        return String.format("%.1f %sB", bytes / Math.pow(unit, exp), pre);
-    }
-
+    
     public static boolean isPrivateMessage (IMessage message) {
 
         return message.getGuild() == null;
-    }
-
-    public static <K, V> String mapToString (Map<K, V> map) {
-
-        String output = "";
-
-        for (final Entry<K, V> entry : map.entrySet())
-            output += entry.getKey().toString() + " - " + entry.getValue().toString() + SEPERATOR;
-
-        return output;
-    }
-
-    public static String formatTime (LocalDateTime time) {
-
-        return time.format(FORMAT_TIME_STANDARD).toString();
     }
 
     public static String toString (List<IRole> roles, String delimiter) {
@@ -360,37 +255,5 @@ public class Utilities {
     public static String userString (IUser user) {
 
         return user.getName() + "#" + user.getDiscriminator() + " - " + user.getID();
-    }
-
-    public static String getPercent (long l1, long l2) {
-
-        final double ratio = l1 / (double) l2;
-
-        if (ratio < 0.001d)
-            return "<0.1%";
-
-        final DecimalFormat percentFormat = new DecimalFormat("#.#%");
-        return percentFormat.format(ratio);
-    }
-    
-    public static String readJson(String urlString) {
-        
-        try (BufferedReader reader = new BufferedReader(new InputStreamReader(new URL(urlString).openStream()))){
-            
-            StringBuffer buffer = new StringBuffer();
-            
-            int read;
-            char[] chars = new char[1024];
-            while ((read = reader.read(chars)) != -1)
-                buffer.append(chars, 0, read); 
-
-            return buffer.toString();
-        }
-        catch (IOException e) {
-            // TODO Auto-generated catch block
-            e.printStackTrace();
-        }
-        
-        return "null";
     }
 }

@@ -11,7 +11,7 @@ public class CommandCurrency implements Command {
         
         for (String currency : Main.config.currency) {
             
-            Utilities.sendMessage(message.getChannel(), CryptoCurUtils.getCurrencyMessage(currency));
+            MessageUtils.sendMessage(message.getChannel(), CryptoCurUtils.getCurrencyMessage(currency));
         }
     }
 

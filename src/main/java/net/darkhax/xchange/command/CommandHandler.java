@@ -51,19 +51,19 @@ public class CommandHandler {
 
         if (key.isEmpty()) {
 
-            Utilities.sendMessage(message.getChannel(), "Please enter a command name!");
+            MessageUtils.sendMessage(message.getChannel(), "Please enter a command name!");
             return;
         }
 
         if (command == null) {
 
-            Utilities.sendMessage(message.getChannel(), "No command found for " + key);
+            MessageUtils.sendMessage(message.getChannel(), "No command found for " + key);
             return;
         }
 
         if (!command.isValidUsage(message)) {
 
-            Utilities.sendPrivateMessage(message.getAuthor(), "You do not have permission to use the " + key + " command. Please try again, or look into getting elevated permissions.");
+            MessageUtils.sendPrivateMessage(message.getAuthor(), "You do not have permission to use the " + key + " command. Please try again, or look into getting elevated permissions.");
             return;
         }
 

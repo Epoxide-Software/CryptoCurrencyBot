@@ -194,7 +194,7 @@ public class CurrencyData {
 
     public static CurrencyData get(String id) {
         
-        String jsonString = Utilities.readJson(CryptoCurUtils.getCurrencyUrl(id));
+        String jsonString = DataUtils.readJson(CryptoCurUtils.getCurrencyUrl(id));
         
         if (jsonString.startsWith("[")) {
             

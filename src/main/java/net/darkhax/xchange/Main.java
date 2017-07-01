@@ -10,6 +10,8 @@ import sx.blah.discord.api.*;
 public class Main {
 
     public static final Gson GSON = new GsonBuilder().setPrettyPrinting().create();
+    public static final String SEPERATOR = System.lineSeparator();
+    
     public static Configuration config;
     public static IDiscordClient instance;
     
