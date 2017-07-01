@@ -3,6 +3,7 @@ package net.darkhax.xchange.command;
 import java.util.*;
 
 import net.darkhax.xchange.*;
+import net.darkhax.xchange.util.*;
 import sx.blah.discord.api.events.*;
 import sx.blah.discord.handle.impl.events.guild.channel.message.*;
 import sx.blah.discord.handle.obj.*;

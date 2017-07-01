@@ -1,6 +1,9 @@
-package net.darkhax.xchange;
+package net.darkhax.xchange.lib;
 
 import com.google.gson.annotations.*;
+
+import net.darkhax.xchange.*;
+import net.darkhax.xchange.util.*;
 
 public class CurrencyData {
 
@@ -191,7 +194,7 @@ public class CurrencyData {
 
     public static CurrencyData get(String id) {
         
-        String jsonString = Utilities.readJson(Utilities.getCurrencyUrl(id));
+        String jsonString = Utilities.readJson(CryptoCurUtils.getCurrencyUrl(id));
         
         if (jsonString.startsWith("[")) {
             
@@ -199,7 +202,7 @@ public class CurrencyData {
         }
         
         CurrencyData data = Main.GSON.fromJson(jsonString, CurrencyData.class);
-        data.logo = Utilities.getCurrencyImage(id);
+        data.logo = CryptoCurUtils.getCurrencyImage(id);
         return data;
     }
 

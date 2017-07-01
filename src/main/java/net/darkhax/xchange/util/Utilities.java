@@ -1,4 +1,4 @@
-package net.darkhax.xchange;
+package net.darkhax.xchange.util;
 
 import java.io.*;
 import java.net.*;
@@ -10,6 +10,7 @@ import java.util.Map.*;
 
 import org.apache.commons.io.*;
 
+import net.darkhax.xchange.*;
 import sx.blah.discord.api.internal.json.objects.*;
 import sx.blah.discord.handle.obj.*;
 import sx.blah.discord.util.*;
@@ -391,16 +392,5 @@ public class Utilities {
         }
         
         return "null";
-    }
-    
-    public static String getCurrencyUrl(String id) {
-        
-        //TODO maybe add other currency types for comparison
-        return String.format("https://api.coinmarketcap.com/v1/ticker/%s/?convert=%s", id, "USD");
-    }
-    
-    public static String getCurrencyImage(String id) {
-        
-        return String.format("https://files.coinmarketcap.com/static/img/coins/32x32/%s.png", id);
     }
 }
