@@ -2,6 +2,7 @@ package net.darkhax.xchange.util;
 
 import java.io.*;
 import java.net.*;
+import java.util.*;
 
 import org.apache.commons.io.*;
 
@@ -56,11 +57,17 @@ public class DataUtils {
 
             return buffer.toString();
         }
+        
         catch (IOException e) {
-            // TODO Auto-generated catch block
-            e.printStackTrace();
+
+        	//TODO logger
         }
         
         return "{}";
+    }
+    
+    public static <T extends Object> T[] getSubArray(T[] array, int start) {
+    	
+    	return Arrays.copyOfRange(array, start, array.length);
     }
 }
