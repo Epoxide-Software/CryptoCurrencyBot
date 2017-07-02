@@ -26,5 +26,7 @@ public class Main {
     public static void registerCommands(Map<String, Command> registry) {
         
         registry.put("currency", new CommandCurrency());
+        registry.put("lookup", new CommandLookup());
+        registry.put("popular", new CommandPopular());
     }
 }
