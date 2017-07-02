@@ -1,5 +1,7 @@
 package net.darkhax.xchange.lib;
 
+import java.io.*;
+
 import com.google.gson.annotations.*;
 
 import net.darkhax.xchange.*;
@@ -196,6 +198,13 @@ public class CurrencyData {
         
         String jsonString = DataUtils.readJson(CryptoCurUtils.getCurrencyUrl(id));
         
+        if (jsonString.equals("{}")) {
+        	
+        	//TOOD propper logger
+        	System.out.println(id + " is not a valid crypto currency name!");
+        	return null;
+        }
+        	
         if (jsonString.startsWith("[")) {
             
             jsonString = jsonString.substring(1, jsonString.length() -1);
