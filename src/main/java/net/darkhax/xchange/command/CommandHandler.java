@@ -46,7 +46,9 @@ public class CommandHandler {
      */
     public static void attemptCommandTriggers (IMessage message) {
 
-        final String key = getCommandKeyFromMessage(message.getContent());
+        final String[] parameters = getParameters(message.getContent());
+        final String key = parameters[0];
+        
         final Command command = commands.get(key);
 
         if (key.isEmpty()) {
@@ -67,21 +69,7 @@ public class CommandHandler {
             return;
         }
 
-        command.processCommand(message, getParameters(message.getContent()));
-    }
-
-    /**
-     * Retrieves a command key from an IMessage. This method assumes that the message passed
-     * starts with a command character.
-     *
-     * @param message The contents of the message to retrieve the key from.
-     *
-     * @return String The command key being used.
-     */
-    public static String getCommandKeyFromMessage (String message) {
-
-        final String[] params = getParameters(message);
-        return params.length < 1 ? "" : params[0].toLowerCase();
+        command.processCommand(message, DataUtils.getSubArray(parameters, 1));
     }
 
     /**
